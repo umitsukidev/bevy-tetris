@@ -1,3 +1,9 @@
+use bevy::prelude::*;
+
+mod tetrimino;
+
 fn main() {
-    println!("Hello, world!");
+    let mut app = App::new();
+
+    app.run();
 }
