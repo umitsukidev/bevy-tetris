@@ -17,7 +17,7 @@ impl Field {
         if self.dropping_mino.is_none() {
             self.dropping_mino = Some(DroppingMino {
                 kind: Tetrimino::I,
-                position: vec2(3.0, 0.0),
+                position: ivec2(3, 0),
                 face: North,
             })
         }

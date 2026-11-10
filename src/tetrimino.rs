@@ -15,50 +15,15 @@ pub enum Tetrimino {
 }
 
 impl Tetrimino {
-    pub fn shape(self) -> [Vec2; 4] {
+    pub fn shape(self) -> [IVec2; 4] {
         match self {
-            Self::I => [
-                vec2(0.0, 1.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-                vec2(3.0, 1.0),
-            ],
-            Self::O => [
-                vec2(1.0, 0.0),
-                vec2(2.0, 0.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-            ],
-            Self::T => [
-                vec2(1.0, 0.0),
-                vec2(0.0, 1.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-            ],
-            Self::S => [
-                vec2(1.0, 0.0),
-                vec2(2.0, 0.0),
-                vec2(0.0, 1.0),
-                vec2(1.0, 1.0),
-            ],
-            Self::Z => [
-                vec2(0.0, 0.0),
-                vec2(1.0, 0.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-            ],
-            Self::L => [
-                vec2(2.0, 0.0),
-                vec2(0.0, 1.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-            ],
-            Self::J => [
-                vec2(0.0, 0.0),
-                vec2(0.0, 1.0),
-                vec2(1.0, 1.0),
-                vec2(2.0, 1.0),
-            ],
+            Self::I => [ivec2(0, 1), ivec2(1, 1), ivec2(2, 1), ivec2(3, 1)],
+            Self::O => [ivec2(1, 0), ivec2(2, 0), ivec2(1, 1), ivec2(2, 1)],
+            Self::T => [ivec2(1, 0), ivec2(0, 1), ivec2(1, 1), ivec2(2, 1)],
+            Self::S => [ivec2(1, 0), ivec2(2, 0), ivec2(0, 1), ivec2(1, 1)],
+            Self::Z => [ivec2(0, 0), ivec2(1, 0), ivec2(1, 1), ivec2(2, 1)],
+            Self::L => [ivec2(2, 0), ivec2(0, 1), ivec2(1, 1), ivec2(2, 1)],
+            Self::J => [ivec2(0, 0), ivec2(0, 1), ivec2(1, 1), ivec2(2, 1)],
         }
     }
 
