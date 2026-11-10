@@ -105,5 +105,8 @@ fn handle_input(mut game: ResMut<Game>, keyboard: Res<ButtonInput<KeyCode>>) {
 }
 
 fn gravity(mut game: ResMut<Game>) {
-    game.field.move_mino(ivec2(0, 1))
+    if game.field.must_lock_mino() {
+        game.field.lock_mino();
+    }
+    game.field.move_mino(ivec2(0, 1));
 }

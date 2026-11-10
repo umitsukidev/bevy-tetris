@@ -12,7 +12,7 @@ pub struct Field {
 
 impl Field {
     pub fn move_mino(&mut self, offset: IVec2) {
-        if let Some(dropping_mino) = &mut self.dropping_mino {
+        if let Some(dropping_mino) = self.dropping_mino {
             let next_mino_position = dropping_mino.position + offset;
 
             let next_mino_cells = dropping_mino
@@ -20,26 +20,45 @@ impl Field {
                 .shape()
                 .map(|offset| next_mino_position + offset);
 
-            if next_mino_cells.iter().all(|mino_cell| {
-                (0 <= mino_cell.x && mino_cell.x < WIDTH as i32)
-                    && (0 <= mino_cell.y && mino_cell.y < HEIGHT as i32)
-                    && self.cells[mino_cell.y as usize][mino_cell.x as usize].is_none()
-            }) {
-                dropping_mino.position = next_mino_position
-            } else if next_mino_cells
-                .iter()
-                .any(|mino_cell| !(0 <= mino_cell.x && mino_cell.x < WIDTH as i32))
-            {
-            } else {
-                for offset in dropping_mino.kind.shape() {
-                    let mino_cell = dropping_mino.position + offset;
-
-                    self.cells[mino_cell.y as usize][mino_cell.x as usize] = Some(Cell::Piece {
-                        color: dropping_mino.kind.color(),
-                    });
-                }
-                self.dropping_mino = None;
+            if self.can_place(next_mino_cells) {
+                self.dropping_mino.as_mut().unwrap().position = next_mino_position
             }
+        }
+    }
+
+    pub fn lock_mino(&mut self) {
+        if let Some(dropping_mino) = self.dropping_mino {
+            for offset in dropping_mino.kind.shape() {
+                let mino_cell = dropping_mino.position + offset;
+
+                self.cells[mino_cell.y as usize][mino_cell.x as usize] = Some(Cell::Piece {
+                    color: dropping_mino.kind.color(),
+                });
+            }
+        }
+        self.dropping_mino = None;
+    }
+
+    fn can_place(&self, mino_cells: [IVec2; 4]) -> bool {
+        mino_cells.iter().all(|mino_cell| {
+            (0 <= mino_cell.x && mino_cell.x < WIDTH as i32)
+                && (0 <= mino_cell.y && mino_cell.y < HEIGHT as i32)
+                && self.cells[mino_cell.y as usize][mino_cell.x as usize].is_none()
+        })
+    }
+
+    pub fn must_lock_mino(&self) -> bool {
+        if let Some(dropping_mino) = self.dropping_mino {
+            let next_mino_position = dropping_mino.position + ivec2(0, 1);
+
+            let next_mino_cells = dropping_mino
+                .kind
+                .shape()
+                .map(|offset| next_mino_position + offset);
+
+            !self.can_place(next_mino_cells)
+        } else {
+            false
         }
     }
 
