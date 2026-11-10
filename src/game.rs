@@ -99,6 +99,8 @@ fn handle_input(mut game: ResMut<Game>, keyboard: Res<ButtonInput<KeyCode>>) {
         match key {
             KeyCode::ArrowLeft => game.field.move_mino(ivec2(-1, 0)),
             KeyCode::ArrowRight => game.field.move_mino(ivec2(1, 0)),
+            KeyCode::ArrowDown => game.field.move_mino(ivec2(0, 1)),
+            KeyCode::ArrowUp => game.field.hard_drop_mino(),
             _ => {}
         }
     }

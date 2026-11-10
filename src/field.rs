@@ -39,6 +39,18 @@ impl Field {
         self.dropping_mino = None;
     }
 
+    pub fn hard_drop_mino(&mut self) {
+        if self.dropping_mino.is_none() {
+            return;
+        }
+
+        while !self.must_lock_mino() {
+            self.move_mino(ivec2(0, 1));
+        }
+
+        self.lock_mino();
+    }
+
     fn can_place(&self, mino_cells: [IVec2; 4]) -> bool {
         mino_cells.iter().all(|mino_cell| {
             (0 <= mino_cell.x && mino_cell.x < WIDTH as i32)
