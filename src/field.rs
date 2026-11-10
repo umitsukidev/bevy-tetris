@@ -13,24 +13,13 @@ pub struct Field {
 }
 
 impl Field {
-    pub fn render_mino(&mut self) {
+    pub fn spawn_mino(&mut self) {
         if self.dropping_mino.is_none() {
             self.dropping_mino = Some(DroppingMino {
                 kind: Tetrimino::I,
                 position: ivec2(3, 0),
                 face: North,
             })
-        }
-
-        if let Some(dropping_mino) = self.dropping_mino {
-            for piece in dropping_mino.kind.shape() {
-                let pos = piece + dropping_mino.position;
-                let (column, row) = (pos.x as usize, pos.y as usize);
-                self.cells[row][column] = Some(Cell::Piece {
-                    color: dropping_mino.kind.color(),
-                    is_dropping: true,
-                });
-            }
         }
     }
 
@@ -60,7 +49,17 @@ impl Field {
         for (pos, mut sprite) in sprites.iter_mut() {
             sprite.color = match self.cells[pos.row][pos.column] {
                 Some(Cell::Piece { color, .. }) => color,
-                None => DARK_GRAY.into(),
+                None => {
+                    if let Some(mino) = self.dropping_mino
+                        && mino.kind.shape().into_iter().any(|offset| {
+                            mino.position + offset == ivec2(pos.column as i32, pos.row as i32)
+                        })
+                    {
+                        mino.kind.color()
+                    } else {
+                        DARK_GRAY.into()
+                    }
+                }
             };
         }
     }

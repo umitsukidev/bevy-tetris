@@ -26,6 +26,6 @@ fn spawn_field(game: Res<Game>, mut commands: Commands) {
 }
 
 fn render(mut game: ResMut<Game>, mut sprites: Query<(&CellPos, &mut Sprite)>) {
-    game.field.render_mino();
+    game.field.spawn_mino();
     game.field.update_sprites(&mut sprites);
 }
