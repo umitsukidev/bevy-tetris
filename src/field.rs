@@ -13,7 +13,33 @@ pub struct Field {
 impl Field {
     pub fn move_mino(&mut self, offset: IVec2) {
         if let Some(dropping_mino) = &mut self.dropping_mino {
-            dropping_mino.position += offset;
+            let next_mino_position = dropping_mino.position + offset;
+
+            let next_mino_cells = dropping_mino
+                .kind
+                .shape()
+                .map(|offset| next_mino_position + offset);
+
+            if next_mino_cells.iter().all(|mino_cell| {
+                (0 <= mino_cell.x && mino_cell.x < WIDTH as i32)
+                    && (0 <= mino_cell.y && mino_cell.y < HEIGHT as i32)
+                    && self.cells[mino_cell.y as usize][mino_cell.x as usize].is_none()
+            }) {
+                dropping_mino.position = next_mino_position
+            } else if next_mino_cells
+                .iter()
+                .any(|mino_cell| !(0 <= mino_cell.x && mino_cell.x < WIDTH as i32))
+            {
+            } else {
+                for offset in dropping_mino.kind.shape() {
+                    let mino_cell = dropping_mino.position + offset;
+
+                    self.cells[mino_cell.y as usize][mino_cell.x as usize] = Some(Cell::Piece {
+                        color: dropping_mino.kind.color(),
+                    });
+                }
+                self.dropping_mino = None;
+            }
         }
     }
 
