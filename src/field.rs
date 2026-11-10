@@ -40,10 +40,7 @@ impl Field {
                 commands.spawn((
                     Sprite::from_color(
                         match self.cells[row][column] {
-                            Some(Cell::Piece {
-                                color,
-                                is_dropping: _,
-                            }) => color,
+                            Some(Cell::Piece { color, .. }) => color,
                             None => DARK_GRAY.into(),
                         },
                         vec2(25.0, 25.0),
