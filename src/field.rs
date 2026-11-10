@@ -17,10 +17,14 @@ impl Field {
         }
     }
 
-    pub fn spawn_mino(&mut self) {
+    pub fn needs_mino(&self) -> bool {
+        self.dropping_mino.is_none()
+    }
+
+    pub fn spawn_mino(&mut self, kind: Tetrimino) {
         if self.dropping_mino.is_none() {
             self.dropping_mino = Some(DroppingMino {
-                kind: Tetrimino::I,
+                kind,
                 position: ivec2(3, 0),
                 face: Direction::North,
             })
