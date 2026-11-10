@@ -3,7 +3,7 @@ use bevy::prelude::*;
 
 #[derive(Debug, Clone, Copy)]
 pub struct DroppingMino {
-    kind: Tetrimino,
-    position: Vec2,
-    face: Direction,
+    pub kind: Tetrimino,
+    pub position: Vec2,
+    pub face: Direction,
 }
