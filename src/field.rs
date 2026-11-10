@@ -1,7 +1,7 @@
 use crate::cell::Cell;
 use bevy::prelude::*;
 
-#[derive(Resource, Default, Clone)]
-pub struct Board {
+#[derive(Debug, Clone, Default)]
+pub struct Field {
     cells: [[Option<Cell>; 10]; 20],
 }

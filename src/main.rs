@@ -1,8 +1,10 @@
-use crate::board::Board;
 use bevy::prelude::*;
 
-mod board;
 mod cell;
+mod direction;
+mod dropping_mino;
+mod field;
+mod game;
 mod tetrimino;
 
 fn main() {
@@ -15,7 +17,6 @@ fn main() {
             }),
             ..Default::default()
         }))
-        .init_resource::<Board>()
         .add_systems(Startup, setup)
         .run();
 }
