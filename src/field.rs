@@ -1,6 +1,4 @@
-use crate::{
-    cell::Cell, direction::Direction::North, dropping_mino::DroppingMino, tetrimino::Tetrimino,
-};
+use crate::{cell::Cell, direction::Direction, dropping_mino::DroppingMino, tetrimino::Tetrimino};
 use bevy::{color::palettes::css::DARK_GRAY, prelude::*};
 
 const WIDTH: usize = 10;
@@ -13,17 +11,23 @@ pub struct Field {
 }
 
 impl Field {
+    pub fn move_mino(&mut self, offset: IVec2) {
+        if let Some(dropping_mino) = &mut self.dropping_mino {
+            dropping_mino.position += offset;
+        }
+    }
+
     pub fn spawn_mino(&mut self) {
         if self.dropping_mino.is_none() {
             self.dropping_mino = Some(DroppingMino {
                 kind: Tetrimino::I,
                 position: ivec2(3, 0),
-                face: North,
+                face: Direction::North,
             })
         }
     }
 
-    pub fn spawn(&self, commands: &mut Commands) {
+    pub fn spawn_sprites(&self, commands: &mut Commands) {
         for row in 0..HEIGHT {
             for column in 0..WIDTH {
                 commands.spawn((
