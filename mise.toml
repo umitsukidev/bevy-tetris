@@ -2,6 +2,7 @@
 
 [tools]
 lefthook = "latest"
+rust = "stable"
 
 [hooks]
 postinstall = "lefthook install"

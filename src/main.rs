@@ -1,3 +1,4 @@
+use crate::game::GamePlugin;
 use bevy::prelude::*;
 
 mod cell;
@@ -17,6 +18,7 @@ fn main() {
             }),
             ..Default::default()
         }))
+        .add_plugins(GamePlugin)
         .add_systems(Startup, setup)
         .run();
 }
